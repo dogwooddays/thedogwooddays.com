@@ -106,6 +106,7 @@
   #tip-ask.hide{ display:none; }
 
   .tip-btn{
+    display:block; box-sizing:border-box; text-align:center; text-decoration:none;
     font-family:'Marcellus', serif; font-size:1.05rem; cursor:pointer;
     background:var(--gold); color:var(--green); border:none;
     padding:.85rem 1.8rem; border-radius:3px; width:100%;
@@ -124,6 +125,13 @@
     color:var(--gold);
   }
   .thanks-card p{ margin:0; color:var(--cream); }
+  .cross-sell{
+    display:inline-block; margin-top:1.1rem; font-size:.9rem;
+    color:var(--gold); text-decoration:none;
+    border-bottom:1px solid transparent; padding-bottom:1px;
+    transition:border-color .15s ease;
+  }
+  .cross-sell:hover{ border-bottom-color:var(--gold); }
   .again-btn{
     margin-top:1.3rem; background:none; border:1px solid var(--line); color:var(--cream-dim);
     font-family:'Marcellus', serif; font-size:.85rem; padding:.5rem 1rem; border-radius:3px;
@@ -161,7 +169,7 @@
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
-    <a href="#">Shop</a>
+    <a href="shop.html">Shop</a>
     <a href="#" aria-current="page">Tip Jar</a>
     <a href="streaming-socials.html">Streaming &amp; Socials</a>
     <a href="#">EPK</a>
@@ -187,13 +195,14 @@
 
   <div class="tip-box">
     <div id="tip-ask">
-      <button class="tip-btn" id="tip-btn" type="button">Send a tip</button>
-      <p class="tip-note">Stripe checkout goes here once it's connected. This button is a placeholder for now.</p>
+      <a class="tip-btn" id="tip-btn" href="https://buy.stripe.com/8x24gzdgQ6n0dao9AT4AU00">Send a tip</a>
+      <p class="tip-note">You'll be taken to Stripe to complete your tip securely, then brought right back here.</p>
     </div>
     <div id="tip-thanks">
       <div class="thanks-card">
         <h2>Thank you</h2>
         <p>That means more than you know. It goes straight back into the music.</p>
+        <a class="cross-sell" href="shop.html">Check out the merch shop &rarr;</a>
       </div>
       <button class="again-btn" id="again-btn" type="button">Back</button>
     </div>
@@ -204,7 +213,7 @@
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
-    <a href="#">Shop</a>
+    <a href="shop.html">Shop</a>
     <a href="#" aria-current="page">Tip Jar</a>
     <a href="streaming-socials.html">Streaming &amp; Socials</a>
     <a href="#">EPK</a>
@@ -244,13 +253,15 @@
   document.querySelector('.carousel-btn.next').addEventListener('click', function(){ show(idx+1); restart(); });
   restart();
 
-  document.getElementById('tip-btn').addEventListener('click', function(){
+  var tipParams = new URLSearchParams(window.location.search);
+  if (tipParams.get('thanks') === '1') {
     document.getElementById('tip-ask').classList.add('hide');
     document.getElementById('tip-thanks').classList.add('show');
-  });
+  }
   document.getElementById('again-btn').addEventListener('click', function(){
     document.getElementById('tip-ask').classList.remove('hide');
     document.getElementById('tip-thanks').classList.remove('show');
+    window.history.replaceState({}, '', window.location.pathname);
   });
 })();
 </script>
